@@ -15,4 +15,4 @@ RUN chmod u+x *.sh \
 # RPi Cam Web Interface listens on port 80
 EXPOSE 80
 
-ENTRYPOINT ["/RPi_Cam_Web_Interface/start.sh"]
+ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/start.sh"]
