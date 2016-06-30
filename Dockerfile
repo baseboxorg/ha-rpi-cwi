@@ -9,7 +9,7 @@ RUN apt-get update && apt-get dist-upgrade && apt-get clean
 COPY RPi_Cam_Web_Interface /usr/local/RPi_Cam_Web_Interface
 WORKDIR /usr/local/RPi_Cam_Web_Interface
 RUN chmod u+x *.sh \
-	&& ./install.sh
+	&& ./install.sh q
 # TODO: Check to see whether we can remove the directory after install
 
 # RPi Cam Web Interface listens on port 80
