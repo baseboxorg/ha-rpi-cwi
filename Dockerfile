@@ -5,11 +5,6 @@ MAINTAINER rcjcooke
 # to keep image size down
 RUN apt-get update && apt-get dist-upgrade && apt-get clean
 
-# Enable the camera
-COPY enableCamera.sh /tmp/enableCamera.sh
-RUN chmod u+x /tmp/enableCamera.sh
-RUN /tmp/enableCamera.sh
-
 # Copy across the camera interface and install it
 COPY RPi_Cam_Web_Interface /usr/local/RPi_Cam_Web_Interface
 
