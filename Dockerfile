@@ -7,8 +7,11 @@ RUN apt-get update && apt-get dist-upgrade && apt-get clean
 
 # Copy across the camera interface and install it
 COPY RPi_Cam_Web_Interface /usr/local/RPi_Cam_Web_Interface
+COPY enableCamera.sh /usr/local/enableCamera.sh
+
 WORKDIR /usr/local/RPi_Cam_Web_Interface
 RUN chmod u+x *.sh \
+	&& ./enableCamera.sh \
 	&& ./install.sh q
 # TODO: Check to see whether we can remove the directory after install
 
