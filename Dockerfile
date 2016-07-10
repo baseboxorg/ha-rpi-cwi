@@ -52,5 +52,8 @@ RUN chmod u+x *.sh \
 # RPi Cam Web Interface listens on port 80
 EXPOSE 80
 
+COPY entrypoint.sh /usr/local/RPi_Cam_Web_Interface/entrypoint.sh
+RUN chmod u+x entrypoint.sh
+
 # Needs to be run with --device /dev/vchiq for access to the camera device
-ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/start.sh && /usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/entrypoint.sh", "-D", "FOREGROUND"]
