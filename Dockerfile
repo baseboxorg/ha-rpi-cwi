@@ -53,4 +53,4 @@ RUN chmod u+x *.sh \
 EXPOSE 80
 
 # Needs to be run with --device /dev/vchiq for access to the camera device
-ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/start.sh"]
+ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/start.sh && /usr/sbin/apache2ctl", "-D", "FOREGROUND"]
