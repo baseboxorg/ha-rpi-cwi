@@ -1,4 +1,4 @@
-FROM FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
+FROM resin/%%RESIN_MACHINE_NAME%%-debian:jessie
 
 # Check to see if Raspbian needs updating, update it and cleanout the apt-get cache afterwards
 # to keep image size down
