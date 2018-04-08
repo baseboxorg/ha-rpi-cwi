@@ -2,22 +2,29 @@
 RUN resin/rpi-raspbian:jessie
 # Check to see if Raspbian needs updating, update it and cleanout the apt-get cache afterwards
 # to keep image size down
-RUN apt-get update && apt-get dist-upgrade && apt-get clean
 
-###### This section lifted from jritsema/rpi-node-piuserland. Original not used
-# as it restricts to a specific version of raspbian - will revisit this later
-# once I've established which version I can get this to work for!
-
-# build raspberry pi userland tools from source (allows access to gpu, camera, etc.)
 RUN apt-get update && apt-get install -y \
       build-essential \
       cmake \
       curl \
 			ca-certificates \
-      git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+      git
 
+# psmisc for killall
+# rest from install.sh:322
+RUN apt-get update -y && \
+    apt-get install -y psmisc dialog gpac motion zip libav-tools gstreamer1.0-tools && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+# RUN apt-get update && apt-get dist-upgrade && apt-get clean
+
+###### This section lifted from jritsema/rpi-node-piuserland. Original not used
+# as it restricts to a specific version of raspbian - will revisit this later
+# once I've established which version I can get this to work for!
+
+# build raspberry pi userland tools from source (allows access to gpu, camera, etc.
 RUN cd \
       && git clone --depth 1 https://github.com/raspberrypi/userland.git \
       && cd userland \
