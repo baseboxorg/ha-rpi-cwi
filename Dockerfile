@@ -50,18 +50,56 @@ RUN apt-get update && apt-get install -y \
 
 RUN cd \
       && git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git \
-      /usr/local/RPi_Cam_Web_Interface
+      /RPi_Cam_Web_Interface && \
+       cd /RPi_Cam_Web_Interface && \
+       chmod u+x *.sh
 
-WORKDIR /usr/local/RPi_Cam_Web_Interface
+  # workarounds
+RUN mkdir -p /run/shm/mjpeg && \
+    sed -i '/sudoers/c\\# sudoers removed' /RPi_Cam_Web_Interface/install.sh && \
+    sed -i '/\/opt\/vc\/bin\//c\\# raspimjpeg removed' /RPi_Cam_Web_Interface/install.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/install.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/start.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/stop.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/remove.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/update.sh && \
+    sed -i 's/sudo //g' /RPi_Cam_Web_Interface/RPi_Cam_Web_Interface_Installer.sh && \
+    sed -i 's/sudo shutdown -r now//g' /RPi_Cam_Web_Interface/www/macros/error_hard.sh && \
+    rm /RPi_Cam_Web_Interface/www/macros/error_hard.sh
 
-RUN chmod u+x *.sh \
-	&& ./install.sh q
+# entry file
+COPY docker-setup.sh /RPi_Cam_Web_Interface
+RUN chmod u+x /RPi_Cam_Web_Interface/docker-setup.sh
 
-# RPi Cam Web Interface listens on port 80
+RUN /RPi_Cam_Web_Interface/docker-setup.sh
+
+# application config, doesnt need modifying
+COPY config.txt ./RPi_Cam_Web_Interface/
+
+# run install in quiet mode
+RUN /RPi_Cam_Web_Interface/install.sh q
+
+# entry file
+COPY docker-entry.sh ./
+RUN chmod u+x docker-entry.sh && \
+    ln docker-entry.sh /usr/local/bin/rpi-cam-web
+
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+
+
+
+#ENV INITSYSTEM on
+
 EXPOSE 80
 
-COPY entrypoint.sh /usr/local/RPi_Cam_Web_Interface/entrypoint.sh
-RUN chmod u+x entrypoint.sh
+ENTRYPOINT ["rpi-cam-web"]
+
+# RPi Cam Web Interface listens on port 80
+
+
+#COPY entrypoint.sh /RPi_Cam_Web_Interface/entrypoint.sh
+#RUN chmod u+x entrypoint.sh
 
 # Needs to be run with --device /dev/vchiq for access to the camera device
-ENTRYPOINT ["/usr/local/RPi_Cam_Web_Interface/entrypoint.sh", "-D", "FOREGROUND"]
+#ENTRYPOINT ["/RPi_Cam_Web_Interface/entrypoint.sh", "-D", "FOREGROUND"]

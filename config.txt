@@ -1,0 +1,7 @@
+#This is edited config file for main installer. Put any extra options in here.
+rpicamdir="/data"
+webserver="apache2"
+webport="80"
+user="voo"
+webpasswd="1234"
+autostart="yes"
