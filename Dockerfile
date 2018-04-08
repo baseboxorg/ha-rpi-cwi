@@ -1,5 +1,5 @@
-FROM resin/raspberry-pi2-debian:jessie
-
+#FROM resin/raspberry-pi2-debian:jessie
+RUN resin/rpi-raspbian:jessie
 # Check to see if Raspbian needs updating, update it and cleanout the apt-get cache afterwards
 # to keep image size down
 RUN apt-get update && apt-get dist-upgrade && apt-get clean
