@@ -40,8 +40,9 @@ RUN apt-get update && apt-get install -y \
 		&& apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy across the camera interface and install it
-COPY RPi_Cam_Web_Interface /usr/local/RPi_Cam_Web_Interface
+RUN cd \
+      && git clone https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git \
+      /usr/local/RPi_Cam_Web_Interface
 
 WORKDIR /usr/local/RPi_Cam_Web_Interface
 RUN chmod u+x *.sh \
