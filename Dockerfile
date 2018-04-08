@@ -47,8 +47,8 @@ RUN cd \
 
 WORKDIR /usr/local/RPi_Cam_Web_Interface
 
-RUN chmod u+x *.sh && \
-    ./install.sh q
+RUN chmod u+x *.sh \
+	&& ./install.sh q
 
 # RPi Cam Web Interface listens on port 80
 EXPOSE 80
