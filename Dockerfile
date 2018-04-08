@@ -1,8 +1,8 @@
-FROM resin/raspberry-pi2-debian
+FROM resin/raspberry-pi2-debian:jessie
 
 # Check to see if Raspbian needs updating, update it and cleanout the apt-get cache afterwards
 # to keep image size down
-#RUN apt-get update && apt-get dist-upgrade && apt-get clean
+RUN apt-get update && apt-get dist-upgrade && apt-get clean
 
 ###### This section lifted from jritsema/rpi-node-piuserland. Original not used
 # as it restricts to a specific version of raspbian - will revisit this later
